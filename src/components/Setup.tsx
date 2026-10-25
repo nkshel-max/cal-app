@@ -6,7 +6,6 @@ import {
   GOALS,
   goalById,
   MACRO_STYLES,
-  macroStyleById,
   targetsFor,
 } from "../models/energy.ts";
 import { formatKcal } from "../models/dates.ts";
@@ -53,11 +52,10 @@ export function Setup({ initial, onSave, onReset, onOpenLegal }: SetupProps) {
             <span>Caltek</span>
           </p>
         )}
-        <h1>{editing ? "The measure" : "A private measure of the day."}</h1>
-        <p className="lede">
-          Caltek sets a calm estimate, then keeps the plates you write down. The record does not leave
-          this device.
-        </p>
+        <h1>{editing ? "Measure" : "A private measure."}</h1>
+        {!editing && (
+          <p className="lede">A calm estimate, kept on this device.</p>
+        )}
         <form
           className="stack"
           onSubmit={(event) => {
@@ -206,17 +204,15 @@ export function Setup({ initial, onSave, onReset, onOpenLegal }: SetupProps) {
 
           <div className="field">
             <span>Goal</span>
-            <div className="choice-grid">
+            <div className="segment">
               {GOALS.map((item) => (
                 <button
                   key={item.id}
                   type="button"
-                  className="choice"
                   aria-pressed={profile.goal === item.id}
                   onClick={() => update({ goal: item.id })}
                 >
-                  <strong>{item.label}</strong>
-                  <span>{item.detail}</span>
+                  {item.label}
                 </button>
               ))}
             </div>
@@ -233,7 +229,6 @@ export function Setup({ initial, onSave, onReset, onOpenLegal }: SetupProps) {
                   onClick={() => update({ macroStyle: item.id })}
                 >
                   {item.label}
-                  <small>{item.detail}</small>
                 </button>
               ))}
             </div>
@@ -334,9 +329,8 @@ export function Setup({ initial, onSave, onReset, onOpenLegal }: SetupProps) {
       </div>
 
       <aside className="model-card">
-        <p className="eyebrow">Today’s target</p>
+        <p className="eyebrow">Target</p>
         <p className="figure">{formatKcal(targets.kcal)}</p>
-        <p className="figure-sub">kilocalories</p>
         <dl className="stat-row">
           <div>
             <dt>BMR</dt>
@@ -370,14 +364,9 @@ export function Setup({ initial, onSave, onReset, onOpenLegal }: SetupProps) {
             <strong>{targets.fat} g</strong>
           </li>
         </ul>
-        <p className="disclaimer">
-          {macroStyleById(profile.macroStyle).label} split. Estimates for personal tracking, not a
-          medical prescription. The equation uses its original female and male terms.{" "}
-          <button type="button" className="text-btn" onClick={() => onOpenLegal("health")}>
-            Read the health disclaimer
-          </button>
-          .
-        </p>
+        <button type="button" className="text-btn" onClick={() => onOpenLegal("health")}>
+          Health disclaimer
+        </button>
       </aside>
     </section>
   );

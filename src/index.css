@@ -26,9 +26,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background:
-    radial-gradient(820px 420px at 50% -12%, rgba(198, 163, 106, 0.1), transparent 60%),
-    #100e0c;
+  background: #100e0c;
 }
 
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -48,9 +46,9 @@ h1 {
 ::selection { background: rgba(198, 163, 106, 0.35); color: #fffaf3; }
 
 .shell {
-  width: min(1040px, calc(100% - 48px));
+  width: min(760px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 32px 0 80px;
+  padding: 28px 0 72px;
 }
 
 .welcome-shell { padding-top: 64px; }
@@ -58,11 +56,9 @@ h1 {
 .topbar {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: baseline;
   gap: 18px;
-  margin-bottom: 42px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+  margin-bottom: 36px;
 }
 
 .brand, .brand-lockup {
@@ -142,9 +138,16 @@ h1 {
 
 .date-copy { text-align: center; }
 .date-copy h1 {
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: 1.45rem;
   font-style: italic;
   font-weight: 500;
+}
+
+.datebar .icon-btn {
+  width: auto;
+  height: auto;
+  border: 0;
+  padding: 4px 2px;
 }
 
 .layout { display: grid; gap: 8px; }
@@ -157,11 +160,11 @@ h1 {
 }
 
 .hero {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 18px;
-  padding: 18px 0 8px;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 2px;
+  padding: 8px 0 0;
 }
 
 .eyebrow {
@@ -169,24 +172,23 @@ h1 {
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .figure {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(5.4rem, 12vw, 8.4rem);
-  line-height: 0.78;
+  font-size: clamp(4.6rem, 10vw, 6.4rem);
+  line-height: 0.82;
   letter-spacing: -0.04em;
-  animation: arrive 0.8s ease both;
 }
 
 .figure-sub, .remain, .note, .disclaimer, .lede, .insight, .entry-meta, .model-note {
   color: var(--muted);
 }
 
-.figure-sub { margin-top: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
-.remain { margin-top: 6px; font-family: var(--serif); font-style: italic; font-size: 1.45rem; color: var(--brass-2); }
+.figure-sub { margin-top: 8px; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
+.remain { margin-top: 8px; font-size: 0.95rem; color: var(--muted); }
 .remain.over { color: var(--clay); }
 
 .ring { width: 132px; height: 132px; flex: none; }
@@ -195,11 +197,13 @@ h1 {
 .ring-value { stroke: var(--brass); stroke-linecap: round; }
 .ring.is-over .ring-value { stroke: var(--clay); }
 
-.side {
-  padding: 12px 0 8px;
+.macros {
   display: grid;
-  gap: 18px;
-  align-content: end;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
 
 .macro-top, .meal-head, .sheet-head, .week-head, .entry, .match-list li, .stepper-row {
@@ -209,8 +213,9 @@ h1 {
   align-items: center;
 }
 
+.macro-top { display: grid; gap: 4px; justify-content: start; }
 .macro-top span { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.68rem; color: var(--muted); }
-.macro-top strong { font-family: var(--serif); font-weight: 500; font-size: 1.35rem; }
+.macro-top strong { font-variant-numeric: tabular-nums; font-weight: 400; font-size: 0.95rem; }
 .macro-top em { color: var(--muted); font-style: italic; font-weight: 500; font-size: 1rem; }
 
 .bar {
@@ -315,12 +320,15 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
 
 .chip:hover { color: var(--brass-2); }
 
-.status { min-height: 1.2em; margin-top: 10px; color: var(--brass-2); font-family: var(--serif); font-style: italic; font-size: 1.15rem; }
+.status { margin-top: 10px; color: var(--muted); font-size: 0.92rem; }
 
 .meals { display: grid; gap: 0; margin-top: 18px; }
 
 .meal { padding: 0; border-top: 1px solid var(--line); }
-.meal-head { padding: 22px 0 6px; }
+.meal-head { padding: 16px 0 8px; }
+.entry-end { display: flex; align-items: baseline; gap: 14px; }
+.remove { color: var(--muted); font-size: 1rem; }
+
 .meal-head h2 {
   font-family: var(--sans);
   font-size: 0.68rem;
@@ -329,13 +337,13 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
   font-weight: 400;
   color: var(--muted);
 }
-.meal-actions { display: flex; align-items: center; gap: 16px; color: var(--muted); font-family: var(--serif); font-style: italic; }
+.meal-actions { display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: 0.92rem; }
 
 .entry-list { list-style: none; margin: 0; padding: 0; }
 .entry { padding: 14px 0; border-top: 1px solid rgba(244, 239, 230, 0.08); }
-.entry-name { font-family: var(--serif); font-size: 1.45rem; font-weight: 500; }
-.entry-meta { font-size: 0.82rem; letter-spacing: 0.04em; }
-.entry-kcal { font-family: var(--serif); font-size: 1.7rem; font-weight: 500; }
+.entry-name { font-size: 1rem; font-weight: 400; }
+.entry-meta { font-size: 0.82rem; }
+.entry-kcal { font-variant-numeric: tabular-nums; font-size: 0.95rem; }
 .empty { color: var(--muted); padding: 4px 0 16px; font-family: var(--serif); font-style: italic; font-size: 1.2rem; }
 
 .setup { display: grid; gap: 28px; }
@@ -380,8 +388,9 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
 .disclaimer, .model-note { font-size: 0.95rem; }
 
 .week { padding: 8px 0 0; }
-.week h1 { font-style: italic; }
-.streak { font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--brass-2); }
+.week-head { display: grid; justify-items: start; gap: 6px; align-items: start; }
+.week h1 { font-size: clamp(2rem, 4vw, 2.8rem); }
+.streak { color: var(--muted); font-size: 0.95rem; }
 .columns {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -403,7 +412,7 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
 .col-track {
   position: relative;
   width: 100%;
-  height: 160px;
+  height: 112px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -435,7 +444,7 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
   z-index: 2;
 }
 .col-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; text-align: center; }
-.insight { margin-top: 22px; font-family: var(--serif); font-style: italic; font-size: 1.25rem; }
+.insight { margin-top: 18px; font-size: 0.95rem; }
 
 .overlay {
   position: fixed;
@@ -502,17 +511,9 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
 }
 
 @media (min-width: 900px) {
-  .layout { grid-template-columns: 1.45fr 0.7fr; column-gap: 48px; }
-  .hero { grid-column: 1; }
-  .side {
-    grid-column: 2;
-    grid-row: 1;
-    border-left: 1px solid var(--line);
-    padding: 28px 0 8px 32px;
-  }
-  .composer-inline, .meals { grid-column: 1 / -1; }
-  .setup { grid-template-columns: 1.15fr 0.85fr; align-items: start; column-gap: 56px; }
-  .model-card { position: sticky; top: 28px; border-top: 0; border-left: 1px solid var(--line); padding: 8px 0 0 36px; }
+  .shell { width: min(920px, calc(100% - 64px)); }
+  .setup { grid-template-columns: 1.15fr 0.85fr; align-items: start; column-gap: 48px; }
+  .model-card { position: sticky; top: 28px; border-top: 0; border-left: 1px solid var(--line); padding: 8px 0 0 32px; }
   .overlay { align-items: center; }
 }
 
@@ -521,8 +522,6 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
   .topbar, .quick, .choice-grid { grid-template-columns: 1fr; }
   .topbar { flex-direction: column; align-items: flex-start; gap: 16px; }
   .nav { width: 100%; justify-content: space-between; }
-  .hero { align-items: center; }
-  .ring { width: 92px; height: 92px; }
   .columns { gap: 4px; }
   .col-figure { font-size: 0.8rem; }
   .week-head, .stat-row { display: grid; gap: 8px; }
@@ -580,9 +579,7 @@ input::placeholder, textarea::placeholder { color: rgba(163, 152, 140, 0.9); }
   z-index: 40;
   overflow: auto;
   padding: 36px 16px 72px;
-  background:
-    radial-gradient(820px 420px at 50% -12%, rgba(198, 163, 106, 0.1), transparent 60%),
-    #100e0c;
+  background: #100e0c;
 }
 
 .legal-doc { width: min(720px, 100%); margin: 0 auto; }

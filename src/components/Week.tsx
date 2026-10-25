@@ -37,7 +37,6 @@ export function Week({ anchor, today, logs, targets, onOpen }: WeekProps) {
   }));
   const logged = days.filter((day) => day.kcal > 0);
   const average = logged.length ? logged.reduce((sum, day) => sum + day.kcal, 0) / logged.length : 0;
-  const close = logged.filter((day) => Math.abs(day.kcal - targets.kcal) / targets.kcal <= 0.1).length;
   const tallest = Math.max(...days.map((day) => day.kcal), 1);
   const peak = tallest / 0.72;
   const showGoal = targets.kcal / peak <= 1;
@@ -46,11 +45,8 @@ export function Week({ anchor, today, logs, targets, onOpen }: WeekProps) {
   return (
     <section className="week">
       <header className="week-head">
-        <div>
-          <p className="eyebrow">The week</p>
-          <h1>How the days were kept.</h1>
-        </div>
-        <p className="streak">{streak === 0 ? "The line is open" : `Held for ${streak} ${streak === 1 ? "day" : "days"}`}</p>
+        <h1>This week</h1>
+        <p className="streak">{streak === 0 ? "No days yet" : `${streak} ${streak === 1 ? "day" : "days"} kept`}</p>
       </header>
       <div className="columns">
         {days.map((day) => {
@@ -82,12 +78,8 @@ export function Week({ anchor, today, logs, targets, onOpen }: WeekProps) {
       </div>
       <p className="insight">
         {logged.length === 0
-          ? "The week is still unwritten."
-          : `${formatKcal(average)} kcal across ${logged.length} written ${logged.length === 1 ? "day" : "days"}. ${
-              close === 0
-                ? "None yet sit within a tenth of the mark."
-                : `${close} ${close === 1 ? "day sits" : "days sit"} within a tenth of the mark.`
-            } The day is set at ${formatKcal(targets.kcal)} kcal.`}
+          ? "No days written."
+          : `${formatKcal(average)} average · mark ${formatKcal(targets.kcal)}`}
       </p>
     </section>
   );

@@ -40,13 +40,7 @@ export default function App() {
     <main className="shell">
       <header className="topbar">
         <div className="brand">
-          <span className="mark" aria-hidden="true">
-            C
-          </span>
-          <div>
-            <strong>Caltek</strong>
-            <em>Private table</em>
-          </div>
+          <strong>Caltek</strong>
         </div>
         <nav className="nav" aria-label="Sections">
           {(

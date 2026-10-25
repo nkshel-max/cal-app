@@ -5,9 +5,6 @@ import { MEALS, suggestedMeal } from "../models/energy.ts";
 import { parsePlate } from "../models/parse.ts";
 import type { Entry, MealId, Profile, Targets } from "../models/types.ts";
 import { totals } from "../models/foods.ts";
-import { Ring } from "./Ring.tsx";
-
-const EXAMPLES = ["2 eggs and toast", "150g chicken breast, 1 cup rice", "greek yogurt and blueberries"];
 
 type TodayProps = {
   date: string;
@@ -85,23 +82,20 @@ export function Today({
 
       <div className="layout">
         <section className="hero">
-          <div>
-            <p className="eyebrow">{greeting}</p>
-            <p className="figure">{formatKcal(consumed.kcal)}</p>
-            <p className="figure-sub">of {formatKcal(targets.kcal)} kcal</p>
-            <p className={over > 0 ? "remain over" : "remain"}>
-              {over > 0 ? `${formatKcal(over)} past the mark` : `${formatKcal(targets.kcal - consumed.kcal)} still open`}
-            </p>
-          </div>
-          <Ring value={consumed.kcal} max={targets.kcal} />
+          <p className="eyebrow">{greeting}</p>
+          <p className="figure">{formatKcal(consumed.kcal)}</p>
+          <p className={over > 0 ? "remain over" : "remain"}>
+            {over > 0
+              ? `${formatKcal(over)} past ${formatKcal(targets.kcal)}`
+              : `${formatKcal(targets.kcal - consumed.kcal)} open of ${formatKcal(targets.kcal)}`}
+          </p>
         </section>
 
-        <aside className="side">
-          <Macro label="Protein" value={consumed.protein} max={targets.protein} tone="protein" />
-          <Macro label="Carbs" value={consumed.carbs} max={targets.carbs} tone="carbs" />
-          <Macro label="Fat" value={consumed.fat} max={targets.fat} tone="fat" />
-          <p className="note">A private record. The figure is an estimate, kept on this device.</p>
-        </aside>
+        <div className="macros">
+          <Macro label="Protein" value={consumed.protein} max={targets.protein} />
+          <Macro label="Carbs" value={consumed.carbs} max={targets.carbs} />
+          <Macro label="Fat" value={consumed.fat} max={targets.fat} />
+        </div>
 
         <section className="composer-inline">
           <form
@@ -131,16 +125,11 @@ export function Today({
               Record
             </button>
           </form>
-          <div className="chips">
-            {EXAMPLES.map((example) => (
-              <button key={example} type="button" className="chip" onClick={() => logQuick(example)}>
-                {example}
-              </button>
-            ))}
-          </div>
-          <p className="status" role="status">
-            {status}
-          </p>
+          {status && (
+            <p className="status" role="status">
+              {status}
+            </p>
+          )}
         </section>
 
         <section className="meals">
@@ -158,28 +147,25 @@ export function Today({
                     </button>
                   </div>
                 </header>
-                {rows.length === 0 ? (
-                  <p className="empty">Unwritten</p>
-                ) : (
+                {rows.length > 0 && (
                   <ul className="entry-list">
                     {rows.map((entry) => (
                       <li key={entry.id} className="entry">
                         <div>
                           <div className="entry-name">{entry.name}</div>
-                          <div className="entry-meta">
-                            {entry.detail} · {formatMacro(entry.protein)}p {formatMacro(entry.carbs)}c{" "}
-                            {formatMacro(entry.fat)}f
-                          </div>
+                          <div className="entry-meta">{entry.detail}</div>
                         </div>
-                        <div className="entry-kcal">{formatKcal(entry.kcal)}</div>
-                        <button
-                          type="button"
-                          className="icon-btn"
-                          aria-label={`Remove ${entry.name}`}
-                          onClick={() => onRemove(entry.id)}
-                        >
-                          ×
-                        </button>
+                        <div className="entry-end">
+                          <span className="entry-kcal">{formatKcal(entry.kcal)}</span>
+                          <button
+                            type="button"
+                            className="text-btn remove"
+                            aria-label={`Remove ${entry.name}`}
+                            onClick={() => onRemove(entry.id)}
+                          >
+                            ×
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>
@@ -193,28 +179,15 @@ export function Today({
   );
 }
 
-function Macro({
-  label,
-  value,
-  max,
-  tone,
-}: {
-  label: string;
-  value: number;
-  max: number;
-  tone: string;
-}) {
-  const pct = max > 0 ? Math.min(100, (value / max) * 100) : 0;
+function Macro({ label, value, max }: { label: string; value: number; max: number }) {
   return (
     <div className="macro">
       <div className="macro-top">
         <span>{label}</span>
         <strong>
-          {formatMacro(value)} <em>/ {max} g</em>
+          {formatMacro(value)}
+          <em> / {max}</em>
         </strong>
-      </div>
-      <div className="bar" aria-hidden="true">
-        <span className={`tone-${tone}`} style={{ width: `${pct}%` }} />
       </div>
     </div>
   );
